@@ -15,10 +15,8 @@ const ActorsGallery = ({ actors }) => {
 ActorsGallery.propTypes = {
   actors: PropTypes.arrayOf(
     PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      profile_path: PropTypes.string.isRequired,
-      character: PropTypes.string.isRequired,
-    }).isRequired
+      id: PropTypes.number.isRequired,
+    })
   ).isRequired,
 };
 

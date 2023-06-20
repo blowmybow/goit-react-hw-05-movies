@@ -15,13 +15,8 @@ const MoviesGallery = ({ movies }) => {
 MoviesGallery.propTypes = {
   movies: PropTypes.arrayOf(
     PropTypes.shape({
-      title: PropTypes.string.isRequired,
-      posterPath: PropTypes.string.isRequired,
-      overview: PropTypes.string.isRequired,
-      genres: PropTypes.string.isRequired,
-      vote: PropTypes.number.isRequired,
-      year: PropTypes.string.isRequired,
-    }).isRequired
+      id: PropTypes.number.isRequired,
+    })
   ).isRequired,
 };
 

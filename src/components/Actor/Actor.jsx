@@ -20,7 +20,7 @@ const Actor = ({ actor: { name, profilePath, character } }) => {
 Actor.propTypes = {
   actor: PropTypes.shape({
     name: PropTypes.string.isRequired,
-    profilePath: PropTypes.string.isRequired,
+    profilePath: PropTypes.string,
     character: PropTypes.string.isRequired,
   }).isRequired,
 };

@@ -23,9 +23,9 @@ ReviewInfo.propTypes = {
   reviews: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string.isRequired,
-      author: PropTypes.string.isRequired,
-      content: PropTypes.string.isRequired,
-    }).isRequired
+      author: PropTypes.string,
+      content: PropTypes.string,
+    })
   ).isRequired,
 };
 

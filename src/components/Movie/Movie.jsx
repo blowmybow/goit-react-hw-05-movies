@@ -79,11 +79,11 @@ const Movie = ({
 Movie.propTypes = {
   movie: PropTypes.shape({
     title: PropTypes.string.isRequired,
-    posterPath: PropTypes.string.isRequired,
-    overview: PropTypes.string.isRequired,
-    genres: PropTypes.string.isRequired,
-    vote: PropTypes.number.isRequired,
-    year: PropTypes.string.isRequired,
+    posterPath: PropTypes.string,
+    overview: PropTypes.string,
+    genres: PropTypes.string,
+    vote: PropTypes.string,
+    year: PropTypes.string,
   }).isRequired,
 };
 export default Movie;

@@ -23,7 +23,7 @@ MoviesGalleryItem.propTypes = {
   movie: PropTypes.shape({
     id: PropTypes.number.isRequired,
     title: PropTypes.string.isRequired,
-    posterPath: PropTypes.string.isRequired,
+    posterPath: PropTypes.string,
   }).isRequired,
 };
 
