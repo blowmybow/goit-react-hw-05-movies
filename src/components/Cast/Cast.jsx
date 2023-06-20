@@ -1,37 +1,36 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { getMovieDetails } from '../../utils/Api/Api';
+import { getMovieCast } from '../../utils/Api/Api';
 
-import Movie from '../../components/Movie/Movie';
-import Loader from '../../components/Loader/Loader';
+import Loader from '../Loader/Loader';
+import ActorsGallery from '../ActorGallery/ActorGallery';
 
-const MovieDetails = () => {
+const Cast = () => {
   const { movieId } = useParams();
-  const [movieDetails, setMovieDetails] = useState([]);
+  const [movieCast, setMovieCast] = useState([]);
   const [status, setStatus] = useState('idle');
   const [error, setError] = useState('');
 
   useEffect(() => {
     if (!movieId) return;
-
-    const controller = new AbortController();
-
-    async function addMovieDetails() {
+    const abortController = new AbortController();
+    async function addMovieCast() {
       setStatus('pending');
       try {
-        const movie = await getMovieDetails(movieId, controller);
-        setMovieDetails(movie);
+        const cast = await getMovieCast(movieId, abortController);
+        setMovieCast(cast);
         setStatus('resolved');
       } catch (error) {
         setError(error.message);
         setStatus('rejected');
       }
     }
-    addMovieDetails();
+
+    addMovieCast(movieId, abortController);
 
     return () => {
-      controller.abort();
+      abortController.abort();
     };
   }, [movieId]);
 
@@ -48,9 +47,11 @@ const MovieDetails = () => {
   return (
     <>
       {status === 'pending' && <Loader />}
-      {status === 'resolved' && <Movie movie={movieDetails} />}
+      {status === 'resolved' && movieCast.length !== 0 && (
+        <ActorsGallery actors={movieCast} />
+      )}
     </>
   );
 };
 
-export default MovieDetails;
+export default Cast;

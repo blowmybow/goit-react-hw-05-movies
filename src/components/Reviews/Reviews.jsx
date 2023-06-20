@@ -1,37 +1,38 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { getMovieDetails } from '../../utils/Api/Api';
+import { getMovieReviews } from '../../utils/Api/Api';
 
-import Movie from '../../components/Movie/Movie';
-import Loader from '../../components/Loader/Loader';
+import Loader from '../Loader/Loader';
+import ReviewInfo from '../ReviewInfo/ReviewInfo';
+import Message from '../Message/Message';
 
-const MovieDetails = () => {
+const Reviews = () => {
   const { movieId } = useParams();
-  const [movieDetails, setMovieDetails] = useState([]);
+
+  const [movieReviews, setMovieReviews] = useState([]);
   const [status, setStatus] = useState('idle');
   const [error, setError] = useState('');
 
   useEffect(() => {
     if (!movieId) return;
-
-    const controller = new AbortController();
-
-    async function addMovieDetails() {
+    const abortController = new AbortController();
+    async function addMovieReviews() {
       setStatus('pending');
       try {
-        const movie = await getMovieDetails(movieId, controller);
-        setMovieDetails(movie);
+        const reviews = await getMovieReviews(movieId, abortController);
+        setMovieReviews(reviews);
         setStatus('resolved');
       } catch (error) {
         setError(error.message);
         setStatus('rejected');
       }
     }
-    addMovieDetails();
+
+    addMovieReviews(movieId, abortController);
 
     return () => {
-      controller.abort();
+      abortController.abort();
     };
   }, [movieId]);
 
@@ -48,9 +49,13 @@ const MovieDetails = () => {
   return (
     <>
       {status === 'pending' && <Loader />}
-      {status === 'resolved' && <Movie movie={movieDetails} />}
+      {status === 'resolved' && movieReviews.length !== 0 ? (
+        <ReviewInfo reviews={movieReviews} />
+      ) : (
+        <Message />
+      )}
     </>
   );
 };
 
-export default MovieDetails;
+export default Reviews;
