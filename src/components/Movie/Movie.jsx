@@ -1,8 +1,6 @@
 import PropTypes from 'prop-types';
 import { Outlet, useLocation } from 'react-router-dom';
-import { Suspense } from 'react';
 import { IoIosArrowRoundBack } from 'react-icons/io';
-import Loader from '../Loader/Loader';
 import { ButtonBack } from '../ButtonBack/ButtonBack.styled';
 import {
   Main,
@@ -18,6 +16,8 @@ import {
   GenresText,
   Rate,
 } from './Movie.styled';
+import { Suspense } from 'react';
+import Loader from 'components/Loader/Loader';
 
 const Movie = ({
   movie: { title, posterPath, overview, genres, vote, year },
