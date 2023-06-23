@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { toast } from 'react-toastify';
+
 import { getMovieSearchQuery } from '../../utils/Api/Api';
 
 import SearchMovies from '../../components/SearchMovies/SearchMovies';
 import MoviesGallery from '../../components/MoviesGallery/MoviesGallery';
-import Pagination from '../../components/Pagination/Pagination';
+
 import Loader from '../../components/Loader/Loader';
 import { Container, Main } from './Movies.styled';
 
@@ -15,7 +15,6 @@ const Movies = () => {
   const [searchedMovies, setSearchedMovies] = useState([]);
   const [status, setStatus] = useState('idle');
   const [page, setPage] = useState(searchParams.get('page'));
-  const [totalPages, setTotalPages] = useState(0);
   const [notification, setNotification] = useState({ type: '', message: '' });
 
   useEffect(() => {
@@ -26,7 +25,7 @@ const Movies = () => {
     async function addMoviesSearchQuery() {
       setStatus('pending');
       try {
-        const { movies, totalPages, totalResults } = await getMovieSearchQuery(
+        const { movies, totalResults } = await getMovieSearchQuery(
           query,
           page,
           controller
@@ -43,7 +42,7 @@ const Movies = () => {
         }
 
         setSearchedMovies(movies);
-        setTotalPages(totalPages);
+
         setStatus('resolved');
       } catch (error) {
         setNotification({
@@ -60,42 +59,7 @@ const Movies = () => {
     };
   }, [page, query]);
 
-  useEffect(() => {
-    if (notification) {
-      function handleNotification() {
-        const notificationType = notification.type;
-        const notificationMessage = notification.message;
-
-        if (notification.message === 'canceled') {
-          return;
-        }
-        if (notificationType === 'info') {
-          toast.info(notificationMessage);
-          setNotification({ type: '', message: '' });
-        }
-        if (notificationType === 'error') {
-          toast.error(notificationMessage);
-          setNotification({ type: '', message: '' });
-        }
-      }
-      handleNotification();
-    }
-  }, [notification]);
-
-  const changePage = currentPage => {
-    setSearchParams({ query: query, page: currentPage });
-    setPage(currentPage);
-  };
-
   const handleSearch = value => {
-    if (!value) {
-      setNotification({
-        type: 'info',
-        message: 'Please enter your search query!',
-      });
-      return;
-    }
-
     if (value === query) {
       setNotification({
         type: 'info',
@@ -121,14 +85,6 @@ const Movies = () => {
         <SearchMovies onSubmit={handleSearch} />
         {status === 'pending' && <Loader />}
         {status === 'resolved' && <MoviesGallery movies={searchedMovies} />}
-        {status === 'resolved' && totalPages > 1 && (
-          <Pagination
-            page={page}
-            totalPages={totalPages}
-            changePage={changePage}
-            query={query}
-          />
-        )}
       </Container>
     </Main>
   );

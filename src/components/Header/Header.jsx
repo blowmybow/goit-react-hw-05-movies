@@ -12,7 +12,7 @@ const Header = () => {
       <Container>
         <Navigation>
           <NavigationLink to="/">Home</NavigationLink>
-          <NavigationLink to="/search">Movies</NavigationLink>
+          <NavigationLink to="/movies">Movies</NavigationLink>
         </Navigation>
       </Container>
     </HeaderWrapper>

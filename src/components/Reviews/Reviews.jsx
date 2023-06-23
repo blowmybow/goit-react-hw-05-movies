@@ -24,6 +24,13 @@ const Reviews = () => {
         setMovieReviews(reviews);
         setStatus('resolved');
       } catch (error) {
+        if (error === 'canceled') {
+          return;
+        }
+        if (error) {
+          toast.error(error);
+          setError('');
+        }
         setError(error.message);
         setStatus('rejected');
       }
@@ -34,17 +41,7 @@ const Reviews = () => {
     return () => {
       abortController.abort();
     };
-  }, [movieId]);
-
-  useEffect(() => {
-    if (error === 'canceled') {
-      return;
-    }
-    if (error) {
-      toast.error(error);
-      setError('');
-    }
-  }, [error]);
+  }, [movieId, error]);
 
   return (
     <>
