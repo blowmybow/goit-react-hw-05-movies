@@ -45,6 +45,9 @@ const Movies = () => {
 
         setStatus('resolved');
       } catch (error) {
+        if (notification) {
+          return;
+        }
         setNotification({
           type: 'error',
           message: error.message,
@@ -57,7 +60,7 @@ const Movies = () => {
     return () => {
       controller.abort();
     };
-  }, [page, query]);
+  }, [page, query, notification]);
 
   const handleSearch = value => {
     if (value === query) {
