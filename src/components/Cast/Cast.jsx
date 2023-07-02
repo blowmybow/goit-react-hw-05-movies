@@ -22,13 +22,6 @@ const Cast = () => {
         setMovieCast(cast);
         setStatus('resolved');
       } catch (error) {
-        if (error === 'canceled') {
-          return;
-        }
-        if (error) {
-          toast.error(error);
-          setError('');
-        }
         setError(error.message);
         setStatus('rejected');
       }
@@ -39,7 +32,17 @@ const Cast = () => {
     return () => {
       abortController.abort();
     };
-  }, [movieId, error]);
+  }, [movieId]);
+
+  useEffect(() => {
+    if (error === 'canceled') {
+      return;
+    }
+    if (error) {
+      toast.error(error);
+      setError('');
+    }
+  }, [error]);
 
   return (
     <>
